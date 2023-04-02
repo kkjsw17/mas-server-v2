@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mas-server-v2"
+authors = [
+    {name = "Kijun Kwon", email = "kkjsw17@naver.com"},
+]
+description = "Transform your meeting productivity with MAS - the ultimate auto summarization web service."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Natural Language :: Korean",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Server",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/kkjsw17/mas-server-v2.git"
+Documentation = "https://github.com/kkjsw17/mas-server-v2.git"
+
+[tool.hatch.version]
+path = "mas/__init__.py"
+
+[tool.isort]
+profile = "black"
