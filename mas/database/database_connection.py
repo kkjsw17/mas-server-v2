@@ -2,9 +2,12 @@ import os
 from abc import ABC, abstractmethod
 
 from cryptography.fernet import Fernet
+from sqlalchemy.ext.declarative import declarative_base
 
 from mas.utils.config import Config
 from mas.utils.const import DATABASE_DRIVER_CLASS
+
+Base = declarative_base()
 
 
 class DatabaseConnection(ABC):
