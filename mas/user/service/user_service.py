@@ -44,7 +44,7 @@ class UserService:
         """
         await self.user_repository.update_deleted_at(user_id)
 
-    async def is_registered_member(self, email: str) -> bool:
+    async def is_registered_user(self, email: str) -> bool:
         """
         Check to see if there is already user with specific email.
 
