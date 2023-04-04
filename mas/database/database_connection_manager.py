@@ -2,15 +2,18 @@ import os
 from abc import ABC, abstractmethod
 
 from cryptography.fernet import Fernet
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 
 from mas.utils.config import Config
 from mas.utils.const import DATABASE_DRIVER_CLASS
 
-Base = declarative_base()
+
+class Base(MappedAsDataclass, DeclarativeBase):
+    def dict(self):
+        return self.__dict__
 
 
-class DatabaseConnection(ABC):
+class DatabaseConnectionManager(ABC):
     """
     A base class for managing database connections.
 
@@ -33,16 +36,23 @@ class DatabaseConnection(ABC):
         self.database_url = f"{self.driver_class}://{self.username}:{self.password}@{self.endpoint}:{self.port}/{self.database_name}"
 
     @abstractmethod
-    async def connect_db(self):
+    def connect_db(self):
         """
         Connects to the database.
         """
         raise NotImplementedError
 
     @abstractmethod
-    async def disconnect_db(self):
+    def disconnect_db(self):
         """
         Disconnects from the database.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_session(self):
+        """
+        Returns a session object to interact with the database.
         """
         raise NotImplementedError
 

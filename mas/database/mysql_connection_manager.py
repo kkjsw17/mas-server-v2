@@ -11,13 +11,13 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from mas.database.database_connection import DatabaseConnection
+from mas.database.database_connection_manager import DatabaseConnectionManager
 from mas.utils.config import Config
 
 logger = getLogger()
 
 
-class MySQLConnection(DatabaseConnection):
+class MySQLConnectionManager(DatabaseConnectionManager):
     """
     A class for managing MySQL database connections.
 
@@ -32,7 +32,7 @@ class MySQLConnection(DatabaseConnection):
         self._engine = None
         self._session_factory = None
 
-    async def connect_db(self):
+    def connect_db(self):
         """
         Connects to the MySQL database.
         """
@@ -64,8 +64,10 @@ class MySQLConnection(DatabaseConnection):
             AsyncSession: An async SQLAlchemy session object to interact with the database.
         """
         session: AsyncSession = self._session_factory()
+
         try:
             yield session
+            await session.commit()
         except Exception:
             logger.exception("Session rollback because of exception")
             await session.rollback()

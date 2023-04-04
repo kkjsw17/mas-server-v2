@@ -4,7 +4,7 @@ from glob import glob
 
 from fastapi import FastAPI
 
-from mas.container import Initializer
+from mas.initializer import Initializer
 
 
 def create_app() -> FastAPI:
