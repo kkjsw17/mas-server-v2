@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 
 from mas.database.database_connection_manager import DatabaseConnectionManager
 from mas.user.entity.user import User
@@ -25,7 +25,7 @@ class UserRepository:
             user_id (int): The ID of the user to find.
 
         Returns:
-            User: The User object representing the found user.
+            User: Found User.
 
         Exceptions:
             UserNotFoundException: If no user with the given ID is found in the database.
@@ -36,6 +36,22 @@ class UserRepository:
             user = result.scalars().one_or_none()
             if user is None:
                 raise UserNotFoundException
+
+        return user
+
+    async def find_user_by_email(self, email: str) -> User | None:
+        """
+        Find a user with the given email.
+
+        Args:
+            email (int): The email address of the user to find.
+
+        Returns:
+            User | None: Found User or None.
+        """
+        async with self.database.get_session() as session:
+            result = await session.execute(select(User).where(User.email == email))
+            user = result.scalars().one_or_none()
 
         return user
 
@@ -54,12 +70,12 @@ class UserRepository:
 
         return user
 
-    async def delete(self, user_id: int):
+    async def update_deleted_at(self, user_id: int):
         """
         Update a deleted_at column of a user with the given ID from the database.
 
         Args:
-            user_id (int): The ID of the user to delete.
+            user_id (int): The ID of the user to update deleted_at.
 
         Notes:
             Through the batch task at 00:00 every day,
@@ -70,3 +86,20 @@ class UserRepository:
             await session.execute(
                 update(User).where(User.id == user_id).values(deleted_at=now_datetime)
             )
+
+    async def delete(self, user_id: int) -> User | None:
+        """
+        Delete a user with the given user ID.
+
+        Args:
+            user_id (int): The ID of the user to delete.
+
+        Returns:
+            User | None: Deleted user or None
+        """
+        async with self.database.get_session() as session:
+            result = await session.execute(delete(User).where(User.id == user_id))
+
+            deleted_user = result.scalars().one_or_none()
+
+        return deleted_user

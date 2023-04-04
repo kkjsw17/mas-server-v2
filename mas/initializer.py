@@ -3,6 +3,7 @@ import inject
 from mas.database.database_connection_manager import DatabaseConnectionManager
 from mas.database.mysql_connection_manager import MySQLConnectionManager
 from mas.user.repository.user_repository import UserRepository
+from mas.user.service.user_service import UserService
 from mas.utils.config import Config
 
 
@@ -38,3 +39,7 @@ class Initializer:
         # 3. bind repositories
         user_repository = UserRepository(database=database_connection)
         binder.bind(UserRepository, user_repository)
+
+        # 4. bind services
+        user_service = UserService(user_repository=user_repository)
+        binder.bind(UserService, user_service)
