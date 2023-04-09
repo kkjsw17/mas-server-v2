@@ -10,10 +10,12 @@ class User(Base):
     __tablename__ = "User"
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True, autoincrement=True)
-    first_name: Mapped[str]
-    last_name: Mapped[str]
-    email: Mapped[str]
-    profile_image_url: Mapped[str | None]
+    email: Mapped[str] = mapped_column()
+    name: Mapped[str]
+    given_name: Mapped[str]
+    family_name: Mapped[str]
+    locale: Mapped[str]
+    picture: Mapped[str | None]
     created_at: Mapped[datetime] = mapped_column(
         default_factory=get_now_datetime_by_timezone
     )

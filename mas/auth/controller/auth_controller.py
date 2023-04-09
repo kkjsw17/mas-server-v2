@@ -1,149 +1,93 @@
-from datetime import datetime, timedelta
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-from pydantic import BaseModel
+import inject
+from fastapi import APIRouter, Depends
+from starlette.responses import JSONResponse, RedirectResponse
 
-router = APIRouter(
-    # prefix="/auth",
-    tags=["auth"],
-)
+from mas.auth.service.google_oauth2_service import GoogleOAuth2Service
+from mas.user.entity.user import User
+from mas.user.repository.user_repository import UserRepository
+from mas.utils.const import COOKIE_AUTHORIZATION_NAME, COOKIE_DOMAIN
 
-# to get a string like this run:
-# openssl rand -hex 32
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+router = APIRouter(tags=["security"])
 
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        "disabled": False,
-    }
-}
+google_oauth2_service = inject.instance(GoogleOAuth2Service)
+user_repository = inject.instance(UserRepository)
 
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+@router.get("/login/google")
+async def google_login() -> RedirectResponse:
+    """
+    Handles the Google OAuth2 login flow. Redirects the user to the Google
+    authorization URL to authorize the app and generate an access token.
+
+    Returns:
+        RedirectResponse: A redirect response to the Google authorization URL.
+    """
+
+    authorization_url = await google_oauth2_service.get_authorization_url()
+
+    return RedirectResponse(url=authorization_url, status_code=302)
 
 
-class TokenData(BaseModel):
-    username: str | None = None
+@router.get("/login/google/callback")
+async def login_google_callback(code: str) -> JSONResponse:
+    """
+    Callback URL that receives the authorization code from Google and generates
+    an encoded JWT token. The token is set as an HTTP-only cookie and returned as
+    a JSON response.
 
+    Args:
+        code (str): The authorization code received from Google.
 
-class User(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+    Returns:
+        JSONResponse: A JSON response containing the encoded JWT token and token type.
+    """
 
+    encoded_jwt_token = await google_oauth2_service.generate_token(code)
 
-class UserInDB(User):
-    hashed_password: str
-
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
-
-
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
-
-
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user
-
-
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
+    response = JSONResponse({"access_token": encoded_jwt_token, "token_type": "Bearer"})
+    response.set_cookie(
+        key=COOKIE_AUTHORIZATION_NAME,
+        value=f"Bearer {encoded_jwt_token}",
+        httponly=True,
+        max_age=1800,
+        expires=1800,
     )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-        token_data = TokenData(username=username)
-    except JWTError:
-        raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
-    if user is None:
-        raise credentials_exception
+
+    return response
+
+
+@router.get("/logout")
+async def logout_and_remove_cookie() -> RedirectResponse:
+    """
+    Logs the user out by deleting the HTTP-only authorization cookie and redirecting
+    the user to the Google logout URL.
+
+    Returns:
+        RedirectResponse: A redirect response to the Google logout URL.
+    """
+
+    response = RedirectResponse(url=google_oauth2_service.google_auth_flow.redirect_uri)
+    response.delete_cookie(COOKIE_AUTHORIZATION_NAME, domain=COOKIE_DOMAIN)
+
+    return response
+
+
+@router.get("/test")
+async def test(
+    user: Annotated[User, Depends(google_oauth2_service.get_current_user)]
+) -> User:
+    """
+    Test endpoint that requires an authorized user. Returns the user object
+    decoded from the encoded JWT token in the authorization cookie.
+
+    Args:
+        user (User): An annotated user object.
+
+    Returns:
+        User: The decoded user object.
+    """
+
     return user
-
-
-async def get_current_active_user(
-    current_user: Annotated[User, Depends(get_current_user)]
-):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
-
-
-@router.post("/token", response_model=Token)
-async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
-):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
-
-@router.get("/users/me/", response_model=User)
-async def read_users_me(
-    current_user: Annotated[User, Depends(get_current_active_user)]
-):
-    return current_user
-
-
-@router.get("/users/me/items/")
-async def read_own_items(
-    current_user: Annotated[User, Depends(get_current_active_user)]
-):
-    return [{"item_id": "Foo", "owner": current_user.username}]

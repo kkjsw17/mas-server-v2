@@ -1,3 +1,4 @@
+starlette==0.26.1
 fastapi==0.95.0
 gunicorn==20.1.0
 uvicorn==0.21.1
@@ -9,6 +10,7 @@ Inject==4.3.1
 pytz==2023.3
 google-auth==2.17.2
 pydantic==1.10.7
-PyJWT==2.6.0
 python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
+requests==2.28.2
+httpx-oauth==0.11.2
+loguru==0.6.0

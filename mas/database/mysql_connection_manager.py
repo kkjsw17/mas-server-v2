@@ -32,7 +32,7 @@ class MySQLConnectionManager(DatabaseConnectionManager):
         self._engine = None
         self._session_factory = None
 
-    def connect_db(self):
+    async def connect_db(self):
         """
         Connects to the MySQL database.
         """
