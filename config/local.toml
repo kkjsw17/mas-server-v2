@@ -4,3 +4,9 @@ password = "gAAAAABkKoPWU0bJwSREcQ01egg9091Xjbvs_TEaIg_7ZmxINB95kYRAKmdylqtaunYG
 endpoint = "mas-v2-database.cvemd7kvhgtq.ap-northeast-2.rds.amazonaws.com"
 port = 3306
 database_name = "mas"
+
+[oauth2.google]
+redirect_uri = "http://localhost:5500/login/"
+javascript_origins = [
+    "http://localhost:5500",
+]

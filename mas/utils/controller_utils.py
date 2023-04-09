@@ -1,23 +1,46 @@
 import importlib
 import os
 from glob import glob
+from typing import Callable
 
+import inject
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
+from mas.database.database_connection_manager import DatabaseConnectionManager
 from mas.initializer import Initializer
+from mas.utils.logging_utils import initialize_logger
 
 
 def create_app() -> FastAPI:
     """
-    Creates a FastAPI application, initializes it with the local configuration, and includes all routers found in the
-    project directory.
+    Creates a FastAPI application, initializes it with the local configuration,
+    and includes all routers found in the project directory.
 
     Returns:
         FastAPI: A new FastAPI application.
     """
-    Initializer("local")
+    Initializer(os.getenv("PHASE", "local"))
 
     app = FastAPI()
+    initialize_logger()
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    app.add_event_handler(
+        "startup",
+        create_start_app_handler(),
+    )
+    app.add_event_handler(
+        "shutdown",
+        create_stop_app_handler(),
+    )
+
     modules = get_controllers("./")
 
     for module in modules:
@@ -64,3 +87,19 @@ def get_module_names(project_path: str, pattern: str) -> list[str]:
                     module_names.append(module_name)
 
     return module_names
+
+
+def create_start_app_handler() -> Callable:
+    async def start_app() -> None:
+        db = inject.instance(DatabaseConnectionManager)
+        await db.connect_db()
+
+    return start_app
+
+
+def create_stop_app_handler() -> Callable:
+    async def stop_app() -> None:
+        db = inject.instance(DatabaseConnectionManager)
+        await db.disconnect_db()
+
+    return stop_app

@@ -1,11 +1,11 @@
 import os
 from abc import ABC, abstractmethod
 
-from cryptography.fernet import Fernet
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 
 from mas.utils.config import Config
 from mas.utils.const import DATABASE_DRIVER_CLASS
+from mas.utils.secret_utils import get_decrypted_password
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
@@ -27,7 +27,7 @@ class DatabaseConnectionManager(ABC):
         self.driver_class = DATABASE_DRIVER_CLASS["mysql"]
         self.endpoint = self.database_config["endpoint"]
         self.username = self.database_config["username"]
-        self.password = self.get_decrypted_password(
+        self.password = get_decrypted_password(
             self.database_config["password"], os.getenv("DATABASE_ENCRYPTION_KEY")
         )
         self.port = self.database_config["port"]
@@ -55,20 +55,3 @@ class DatabaseConnectionManager(ABC):
         Returns a session object to interact with the database.
         """
         raise NotImplementedError
-
-    @staticmethod
-    def get_decrypted_password(encrypted_password: str, key: str) -> str:
-        """
-        Decrypts a password using the provided key.
-
-        Args:
-            encrypted_password (str): The encrypted password to decrypt.
-            key (str): The key used to decrypt the password.
-
-        Returns:
-            str: The decrypted password.
-        """
-        cipher_suite = Fernet(key)
-        encoded_encrypted_password = encrypted_password.encode()
-
-        return cipher_suite.decrypt(encoded_encrypted_password).decode()
