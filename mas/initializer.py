@@ -3,6 +3,9 @@ import inject
 from mas.auth.service.google_oauth2_service import GoogleOAuth2Service
 from mas.database.database_connection_manager import DatabaseConnectionManager
 from mas.database.mysql_connection_manager import MySQLConnectionManager
+from mas.script.service.script_websocket_management_service import (
+    ScriptWebsocketManagementService,
+)
 from mas.user.repository.user_repository import UserRepository
 from mas.user.service.user_service import UserService
 from mas.utils.config import Config
@@ -41,6 +44,12 @@ class Initializer:
         binder.bind(UserRepository, user_repository)
 
         # 4. bind services
+        websocket_connection_management_service = ScriptWebsocketManagementService()
+        binder.bind(
+            ScriptWebsocketManagementService,
+            websocket_connection_management_service,
+        )
+
         user_service = UserService(user_repository=user_repository)
         binder.bind(UserService, user_service)
 
