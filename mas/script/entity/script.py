@@ -7,6 +7,8 @@ from mas.utils.datetime_utils import get_now_datetime_by_timezone
 
 
 class Script(Base):
+    __tablename__ = "Script"
+
     id: Mapped[int] = mapped_column(init=False, primary_key=True, autoincrement=True)
     mid: Mapped[int]
     uid: Mapped[int]
@@ -17,4 +19,4 @@ class Script(Base):
     modified_at: Mapped[datetime] = mapped_column(
         default_factory=get_now_datetime_by_timezone
     )
-    checked: Mapped[bool] = False
+    checked: Mapped[bool] = mapped_column(default=False)

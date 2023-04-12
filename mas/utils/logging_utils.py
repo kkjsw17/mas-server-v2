@@ -36,8 +36,7 @@ def initialize_logger():
     logger.configure(handlers=[{"sink": sys.stderr, "level": logging.INFO}])
     os.makedirs("./logs", exist_ok=True)
 
-    pid = os.getpid()
-    logger.add(f"./logs/[{pid}]_{{time}}.log")
+    logger.add("./logs/{time}.log")
 
     requests_log = logging.getLogger("requests.packages.urllib3")
     requests_log.setLevel(logging.DEBUG)
