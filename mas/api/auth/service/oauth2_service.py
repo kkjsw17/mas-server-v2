@@ -6,9 +6,9 @@ from typing import Annotated
 from fastapi import Depends
 from jose import jwt
 
-from mas.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
-from mas.user.entity.user import User
-from mas.user.repository.user_repository import UserRepository
+from mas.api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
+from mas.api.user.entity.user import User
+from mas.api.user.repository.user_repository import UserRepository
 from mas.utils.config import Config
 from mas.utils.const import (
     COOKIE_AUTHORIZATION_NAME,

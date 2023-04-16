@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from mas.database.database_connection_manager import Base
+from mas.api.database.database_connection_manager import Base
 from mas.utils.datetime_utils import get_now_datetime_by_timezone
 
 

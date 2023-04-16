@@ -4,9 +4,9 @@ import inject
 from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse, RedirectResponse
 
-from mas.auth.service.google_oauth2_service import GoogleOAuth2Service
-from mas.user.entity.user import User
-from mas.user.repository.user_repository import UserRepository
+from mas.api.auth.service.google_oauth2_service import GoogleOAuth2Service
+from mas.api.user.entity.user import User
+from mas.api.user.repository.user_repository import UserRepository
 from mas.utils.const import COOKIE_AUTHORIZATION_NAME, COOKIE_DOMAIN
 
 router = APIRouter(tags=["security"])

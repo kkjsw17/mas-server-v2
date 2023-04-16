@@ -1,14 +1,14 @@
 import inject
 
-from mas.auth.service.google_oauth2_service import GoogleOAuth2Service
-from mas.database.database_connection_manager import DatabaseConnectionManager
-from mas.database.mysql_connection_manager import MySQLConnectionManager
-from mas.user.repository.user_repository import UserRepository
-from mas.user.service.user_service import UserService
+from mas.api.auth.service.google_oauth2_service import GoogleOAuth2Service
+from mas.api.database.database_connection_manager import DatabaseConnectionManager
+from mas.api.database.mysql_connection_manager import MySQLConnectionManager
+from mas.api.user.repository.user_repository import UserRepository
+from mas.api.user.service.user_service import UserService
 from mas.utils.config import Config
 
 
-class Initializer:
+class APIInitializer:
     """
     This class is responsible for initializing the application with necessary dependencies.
 

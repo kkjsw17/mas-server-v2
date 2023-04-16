@@ -1,5 +1,5 @@
-from mas.user.entity.user import User
-from mas.user.repository.user_repository import UserRepository
+from mas.api.user.entity.user import User
+from mas.api.user.repository.user_repository import UserRepository
 
 
 class UserService:

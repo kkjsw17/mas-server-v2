@@ -1,8 +1,8 @@
 from sqlalchemy import delete, select, update
 
-from mas.database.database_connection_manager import DatabaseConnectionManager
-from mas.user.entity.user import User
-from mas.user.exception.user_exception import UserNotFoundException
+from mas.api.database.database_connection_manager import DatabaseConnectionManager
+from mas.api.user.entity.user import User
+from mas.api.user.exception.user_exception import UserNotFoundException
 from mas.utils.datetime_utils import get_now_datetime_by_timezone
 
 

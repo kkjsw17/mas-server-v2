@@ -10,7 +10,9 @@ from mas.utils.secret_utils import get_decrypted_password
 
 class Base(MappedAsDataclass, DeclarativeBase):
     def dict(self):
-        return self.__dict__
+        base_dict = self.__dict__
+        base_dict.pop("_sa_instance_state")
+        return base_dict
 
 
 class DatabaseConnectionManager(ABC):
