@@ -9,10 +9,10 @@ def number_of_workers() -> int:
     return (multiprocessing.cpu_count() * 2) + 1
 
 
-class MASMultiThreadingServer(BaseApplication):
-    def __init__(self, app: FastAPI):
+class MASMultiProcessingServer(BaseApplication):
+    def __init__(self, app: FastAPI, config_file_path: str):
         self.application = app
-        with open("./config/gunicorn.conf.toml", "rb") as f:
+        with open(config_file_path, "rb") as f:
             self.options = tomllib.load(f)
 
         if "workers" not in self.options:

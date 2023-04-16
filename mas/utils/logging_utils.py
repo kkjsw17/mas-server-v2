@@ -26,7 +26,8 @@ class InterceptHandler(logging.Handler):
         )
 
 
-def initialize_logger():
+def initialize_logger(project_path: str):
+    project_dir = project_path.split("/")[0]
     logging.getLogger().handlers = [InterceptHandler()]
 
     for logger_name in LOGGERS:
@@ -35,8 +36,9 @@ def initialize_logger():
 
     logger.configure(handlers=[{"sink": sys.stderr, "level": logging.INFO}])
     os.makedirs("./logs", exist_ok=True)
+    os.makedirs(f"./logs/{project_dir}", exist_ok=True)
 
-    logger.add("./logs/{time}.log")
+    logger.add(f"./logs/{project_dir}/{{time}}.log")
 
     requests_log = logging.getLogger("requests.packages.urllib3")
     requests_log.setLevel(logging.DEBUG)

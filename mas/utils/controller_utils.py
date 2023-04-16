@@ -7,23 +7,24 @@ import inject
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from mas.database.database_connection_manager import DatabaseConnectionManager
-from mas.initializer import Initializer
+from mas.api.database.database_connection_manager import DatabaseConnectionManager
 from mas.utils.logging_utils import initialize_logger
 
 
-def create_app() -> FastAPI:
+def create_app(project_path: str, init_database: bool = True) -> FastAPI:
     """
     Creates a FastAPI application, initializes it with the local configuration,
     and includes all routers found in the project directory.
 
+    Args:
+        project_path (str): TODO
+        init_database (bool): TODO
+
     Returns:
         FastAPI: A new FastAPI application.
     """
-    Initializer(os.getenv("PHASE", "local"))
-
     app = FastAPI()
-    initialize_logger()
+    initialize_logger(project_path)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -32,16 +33,17 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.add_event_handler(
-        "startup",
-        create_start_app_handler(),
-    )
-    app.add_event_handler(
-        "shutdown",
-        create_stop_app_handler(),
-    )
+    if init_database:
+        app.add_event_handler(
+            "startup",
+            create_start_app_handler(),
+        )
+        app.add_event_handler(
+            "shutdown",
+            create_stop_app_handler(),
+        )
 
-    modules = get_controllers("./")
+    modules = get_controllers(project_path)
 
     for module in modules:
         router = module.router
