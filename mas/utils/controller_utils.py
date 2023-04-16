@@ -17,8 +17,8 @@ def create_app(project_path: str, init_database: bool = True) -> FastAPI:
     and includes all routers found in the project directory.
 
     Args:
-        project_path (str): TODO
-        init_database (bool): TODO
+        project_path (str): Root path of the project to create the app
+        init_database (bool): Whether the project requires a database connections
 
     Returns:
         FastAPI: A new FastAPI application.
