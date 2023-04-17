@@ -19,6 +19,7 @@ class Config:
 
     database = None
     oauth2 = None
+    kafka = None
 
     def __init__(self, phase: str):
         with open("./config/common.toml", "rb") as f:
