@@ -13,3 +13,6 @@ javascript_origins = [
 
 [kafka.producer]
 bootstrap.servers = "localhost"
+
+[kafka.consumer]
+bootstrap.servers = "localhost"
