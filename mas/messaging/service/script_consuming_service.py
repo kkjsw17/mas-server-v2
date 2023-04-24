@@ -6,7 +6,6 @@ from confluent_kafka import DeserializingConsumer, KafkaError, KafkaException
 
 from mas.api.script.repository.script_repository import ScriptRepository
 from mas.utils.config import Config
-from mas.websocket.script.dto.script_response import ScriptResponse
 
 logger = getLogger()
 
@@ -19,13 +18,7 @@ class ScriptConsumingService:
         self.consumer = DeserializingConsumer(self.kafka_config)
 
     @inject.params(script_repository=ScriptRepository)
-    def consume_script(
-        self,
-        meeting_id: int,
-        user_id: int,
-        script_response: ScriptResponse,
-        script_repository: ScriptRepository,
-    ):
+    def consume_script(self, script_repository: ScriptRepository):
         running = True
 
         try:
