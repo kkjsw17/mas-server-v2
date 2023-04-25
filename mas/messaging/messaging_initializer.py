@@ -3,6 +3,7 @@ import inject
 from mas.api.database.database_connection_manager import DatabaseConnectionManager
 from mas.api.database.mysql_connection_manager import MySQLConnectionManager
 from mas.api.script.repository.script_repository import ScriptRepository
+from mas.messaging.service.script_consuming_service import ScriptConsumingService
 from mas.utils.config import Config
 
 
@@ -37,3 +38,7 @@ class MessagingInitializer:
         # 3. bind repositories
         script_repository = ScriptRepository(database=database_connection)
         binder.bind(ScriptRepository, script_repository)
+
+        # 4. bind services
+        script_consuming_service = ScriptConsumingService(config=config)
+        binder.bind(ScriptConsumingService, script_consuming_service)

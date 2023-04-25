@@ -18,7 +18,7 @@ class ScriptConsumingService:
         self.consumer = DeserializingConsumer(self.kafka_config)
 
     @inject.params(script_repository=ScriptRepository)
-    def consume_script(self, script_repository: ScriptRepository):
+    async def consume_script(self, script_repository: ScriptRepository):
         running = True
 
         try:
@@ -40,7 +40,7 @@ class ScriptConsumingService:
                 else:
                     # msg_process(msg)
                     self.consumer.commit(asynchronous=True)
-                    script_repository.save(msg)
+                    await script_repository.save(msg)
         finally:
             # Close down consumer to commit final offsets.
             self.consumer.close()
