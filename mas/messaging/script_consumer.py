@@ -15,13 +15,6 @@ def commit_completed(err, partitions):
         print("Committed partition offsets: " + str(partitions))
 
 
-conf = {
-    "bootstrap.servers": "host1:9092,host2:9092",
-    "group.id": "foo",
-    "auto.offset.reset": "earliest",
-    "on_commit": commit_completed,
-}
-
 script_consuming_service = inject.instance(ScriptConsumingService)
 
 if __name__ == "__main__":
