@@ -1,11 +1,8 @@
 import asyncio
-from logging import getLogger
 
 import inject
 
 from mas.messaging.service.script_consuming_service import ScriptConsumingService
-
-logger = getLogger()
 
 
 def commit_completed(err, partitions):
