@@ -10,10 +10,18 @@ from mas.utils.config import Config
 logger = getLogger()
 
 
+def commit_completed(err, partitions):
+    if err:
+        print(str(err))
+    else:
+        print("Committed partition offsets: " + str(partitions))
+
+
 class ScriptConsumingService:
     def __init__(self, config: Config):
         self.kafka_config = config.kafka["consumer"]
         self.kafka_config["value.deserializer"] = lambda v: pickle.loads(v)
+        self.kafka_config["on_commit"] = commit_completed
 
         self.consumer = DeserializingConsumer(self.kafka_config)
 
