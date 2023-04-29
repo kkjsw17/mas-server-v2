@@ -12,9 +12,9 @@ logger = getLogger()
 
 def commit_completed(err, partitions):
     if err:
-        print(str(err))
+        logger.error(str(err))
     else:
-        print("Committed partition offsets: " + str(partitions))
+        logger.info("Committed partition offsets: " + str(partitions))
 
 
 class ScriptConsumingService:
