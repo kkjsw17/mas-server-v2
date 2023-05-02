@@ -18,6 +18,17 @@ def commit_completed(err, partitions):
 
 
 class ScriptConsumingService:
+    """
+    Consumes scripts from a Kafka topic and saves them in a script repository.
+
+    Args:
+        config (Config): The configuration object containing the Kafka consumer configuration.
+
+    Attributes:
+        kafka_config (dict): The configuration options for the Kafka consumer, including the value deserializer and the on-commit function.
+        consumer (DeserializingConsumer): The Kafka consumer instance.
+    """
+
     def __init__(self, config: Config):
         self.kafka_config = config.kafka["consumer"]
         self.kafka_config["value.deserializer"] = lambda v: pickle.loads(v)
@@ -27,6 +38,13 @@ class ScriptConsumingService:
 
     @inject.params(script_repository=ScriptRepository)
     async def consume_script(self, script_repository: ScriptRepository):
+        """
+        Consume script from Kafka topic and save it in script repository.
+
+        Args:
+            script_repository (ScriptRepository): An instance of the ScriptRepository class containing the methods to save the script.
+        """
+
         running = True
 
         try:
