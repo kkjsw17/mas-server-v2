@@ -4,7 +4,6 @@ from typing import Any
 from google.auth.transport import requests
 from google.oauth2.id_token import verify_oauth2_token
 from httpx_oauth.clients.google import GoogleOAuth2
-
 from mas.api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
 from mas.api.auth.service.oauth2_service import OAuth2Service
 from mas.api.user.entity.user import User

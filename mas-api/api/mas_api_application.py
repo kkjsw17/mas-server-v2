@@ -6,6 +6,6 @@ from mas.utils.gunicorn_utils import MASMultiProcessingServer
 
 APIInitializer(os.getenv("PHASE", "local"))
 
-app = create_app("./mas/api")
+app = create_app("./api/api")
 
 MASMultiProcessingServer(app, "./config/api/gunicorn.conf.toml").run()

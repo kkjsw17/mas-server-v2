@@ -1,5 +1,4 @@
 import inject
-
 from mas.api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from mas.api.database.database_connection_manager import DatabaseConnectionManager
 from mas.api.database.mysql_connection_manager import MySQLConnectionManager

@@ -5,7 +5,6 @@ from typing import Annotated
 
 from fastapi import Depends
 from jose import jwt
-
 from mas.api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
 from mas.api.user.entity.user import User
 from mas.api.user.repository.user_repository import UserRepository
