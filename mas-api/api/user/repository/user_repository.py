@@ -1,7 +1,7 @@
-from mas.api.database.database_connection_manager import DatabaseConnectionManager
-from mas.api.user.entity.user import User
-from mas.api.user.exception.user_exception import UserNotFoundException
-from mas.utils.datetime_utils import get_now_datetime_by_timezone
+from api.database.database_connection_manager import DatabaseConnectionManager
+from api.user.entity.user import User
+from api.user.exception.user_exception import UserNotFoundException
+from api.utils.datetime_utils import get_now_datetime_by_timezone
 from sqlalchemy import delete, select, update
 
 
@@ -10,7 +10,7 @@ class UserRepository:
     Repository class for managing User objects in the database.
 
     Args:
-        database (DatabaseConnectionManager): database connection management class
+        database (DatabaseConnectionManager): database connection management classㄹ
     """
 
     def __init__(self, database: DatabaseConnectionManager):

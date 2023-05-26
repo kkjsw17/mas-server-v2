@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-
 from mas.websocket.script.dto.script_response import ScriptResponse
 from mas.websocket.script.service.script_producing_service import ScriptProducingService
 from mas.websocket.websocket_connection_manager import WebsocketConnectionManager

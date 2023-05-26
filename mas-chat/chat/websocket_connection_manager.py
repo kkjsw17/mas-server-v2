@@ -1,7 +1,6 @@
 from collections import defaultdict
 
 from fastapi import WebSocket
-
 from mas.websocket.script.dto.script_response import ScriptResponse
 
 

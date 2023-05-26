@@ -1,7 +1,6 @@
 import pickle
 
 from confluent_kafka import SerializingProducer
-
 from mas.api.script.entity.script import Script
 from mas.utils.config import Config
 from mas.utils.kafka_utils import on_delivery
