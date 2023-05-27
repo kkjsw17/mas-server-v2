@@ -1,5 +1,4 @@
 import inject
-
 from mas.api.database.database_connection_manager import DatabaseConnectionManager
 from mas.api.database.mysql_connection_manager import MySQLConnectionManager
 from mas.api.script.repository.script_repository import ScriptRepository
