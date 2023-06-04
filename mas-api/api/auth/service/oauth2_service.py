@@ -5,17 +5,17 @@ from typing import Annotated
 
 from fastapi import Depends
 from jose import jwt
-from mas.api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
-from mas.api.user.entity.user import User
-from mas.api.user.repository.user_repository import UserRepository
-from mas.utils.config import Config
-from mas.utils.const import (
+from api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
+from api.user.entity.user import User
+from api.user.repository.user_repository import UserRepository
+from api.utils.config import Config
+from api.utils.const import (
     COOKIE_AUTHORIZATION_NAME,
     JWT_DECODING_OPTIONS,
     OAUTH2_ALGORITHM,
 )
-from mas.utils.datetime_utils import get_now_datetime_by_timezone
-from mas.utils.oauth2_utils import OAuth2PasswordBearerWithCookie
+from api.utils.datetime_utils import get_now_datetime_by_timezone
+from api.utils.oauth2_utils import OAuth2PasswordBearerWithCookie
 
 oauth_scheme = OAuth2PasswordBearerWithCookie(
     tokenUrl="/token", authorization_name=COOKIE_AUTHORIZATION_NAME
