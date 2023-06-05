@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
 
-from chat.script.dto.script_dto import ScriptDto
-from chat.script.service.script_producing_service import ScriptProducingService
+from chat.dto.script_dto import ScriptDto
+from chat.service.script_producing_service import ScriptProducingService
 from chat.utils.config import Config
 from chat.websocket_connection_manager import WebsocketConnectionManager
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect

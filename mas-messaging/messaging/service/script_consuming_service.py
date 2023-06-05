@@ -2,6 +2,7 @@ import pickle
 from logging import getLogger
 
 from confluent_kafka import DeserializingConsumer, KafkaError, KafkaException
+from messaging.entity.script import Script
 from messaging.repository.script_repository import ScriptRepository
 from messaging.utils.config import Config
 
@@ -24,7 +25,6 @@ class ScriptConsumingService:
 
     Attributes:
         kafka_config (dict): The configuration options for the Kafka consumer, including the value deserializer and the on-commit function.
-        consumer (DeserializingConsumer): The Kafka consumer instance.
     """
 
     def __init__(self, config: Config, script_repository: ScriptRepository):
@@ -60,8 +60,8 @@ class ScriptConsumingService:
                         raise KafkaException(msg.error())
                 else:
                     # msg_process(msg)
-                    print(msg.value())
-                    # await self.script_repository.save(script=msg.value())
+                    script = Script(**msg.value().__dict__)
+                    await self.script_repository.save(script=script)
                     consumer.commit(asynchronous=True)
         finally:
             # Close down consumer to commit final offsets.

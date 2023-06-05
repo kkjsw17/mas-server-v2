@@ -1,8 +1,7 @@
 from collections import defaultdict
 
+from chat.dto.script_dto import ScriptDto
 from fastapi import WebSocket
-
-from chat.script.dto.script_dto import ScriptDto
 
 
 class WebsocketConnectionManager:

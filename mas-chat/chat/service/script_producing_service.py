@@ -1,7 +1,7 @@
 import pickle
 
-from chat.script.dto.script_dto import ScriptDto
-from chat.script.entity.script import Script
+from chat.dto.script_dto import ScriptDto
+from chat.entity.script import Script
 from chat.utils.config import Config
 from chat.utils.kafka_utils import on_delivery
 from confluent_kafka import SerializingProducer
@@ -18,5 +18,5 @@ class ScriptProducingService:
         script = Script(mid=meeting_id, uid=user_id, content=script_dto.content)
 
         producer = SerializingProducer(self.kafka_config)
-        producer.produce(topic="testtest", value=script, on_delivery=on_delivery)
+        producer.produce(topic="scripts", value=script, on_delivery=on_delivery)
         producer.poll(1)

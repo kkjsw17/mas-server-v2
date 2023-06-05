@@ -1,8 +1,8 @@
 import os
 
-from mas.api.api_initializer import APIInitializer
-from mas.utils.controller_utils import create_app
-from mas.utils.gunicorn_utils import MASMultiProcessingServer
+from api.api_initializer import APIInitializer
+from api.utils.controller_utils import create_app
+from api.utils.gunicorn_utils import MASMultiProcessingServer
 
 APIInitializer(os.getenv("PHASE", "local"))
 

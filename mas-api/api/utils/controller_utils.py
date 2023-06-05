@@ -4,9 +4,9 @@ from glob import glob
 from typing import Callable
 
 import inject
+from api.database.database_connection_manager import DatabaseConnectionManager
+from api.utils.logging_utils import initialize_logger
 from fastapi import FastAPI
-from mas.api.database.database_connection_manager import DatabaseConnectionManager
-from mas.utils.logging_utils import initialize_logger
 from starlette.middleware.cors import CORSMiddleware
 
 

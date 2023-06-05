@@ -3,7 +3,8 @@ import os
 import sys
 
 from loguru import logger
-from mas.utils.const import LOGGERS
+
+from api.utils.const import LOGGERS
 
 
 class InterceptHandler(logging.Handler):
