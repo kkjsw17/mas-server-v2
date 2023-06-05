@@ -1,8 +1,21 @@
 from datetime import datetime
 
-from mas.api.database.database_connection_manager import Base
-from mas.utils.datetime_utils import get_now_datetime_by_timezone
+from messaging.database.database_connection_manager import Base
+from pytz import timezone
 from sqlalchemy.orm import Mapped, mapped_column
+
+
+def get_now_datetime_by_timezone(timezone_str: str = "Asia/Seoul") -> datetime:
+    """
+    Returns a datetime object with the specified timezone.
+
+    Args:
+        timezone_str (str): The target timezone, in Olson format (e.g. 'America/New_York').
+
+    Returns:
+        datetime: A datetime object with the specified timezone.
+    """
+    return datetime.now(timezone(timezone_str))
 
 
 class Script(Base):

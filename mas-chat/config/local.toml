@@ -1,0 +1,2 @@
+[kafka.producer]
+"bootstrap.servers" = "localhost"

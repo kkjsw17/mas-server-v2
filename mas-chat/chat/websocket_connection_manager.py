@@ -1,7 +1,8 @@
 from collections import defaultdict
 
 from fastapi import WebSocket
-from mas.websocket.script.dto.script_response import ScriptResponse
+
+from chat.script.dto.script_dto import ScriptDto
 
 
 class WebsocketConnectionManager:
@@ -19,6 +20,6 @@ class WebsocketConnectionManager:
         for connection in self.active_connections[meeting_id]:
             await connection.send_text(message)
 
-    async def broadcast_script(self, script: ScriptResponse, meeting_id: int):
+    async def broadcast_script(self, script_dto: ScriptDto, meeting_id: int):
         for connection in self.active_connections[meeting_id]:
-            await connection.send_text(script.json())
+            await connection.send_text(script_dto.json(ensure_ascii=False))

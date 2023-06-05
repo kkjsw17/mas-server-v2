@@ -17,8 +17,7 @@ class Config:
         phase (str): running phase e.g. 'real', 'local', ...
     """
 
-    database = None
-    oauth2 = None
+    kafka = None
 
     def __init__(self, phase: str):
         with open("./config/local.toml", "rb") as f:

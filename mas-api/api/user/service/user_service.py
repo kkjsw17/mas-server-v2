@@ -31,6 +31,10 @@ class UserService:
 
         return saved_user
 
+    async def find_by_id(self, user_id: int) -> User:
+        """"""
+        return await self.user_repository.find_user_by_id(user_id)
+
     async def delete(self, user_id: int):
         """
         Update the user's deleted_at to the current time.

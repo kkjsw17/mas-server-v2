@@ -5,6 +5,7 @@ from typing import Annotated
 
 from fastapi import Depends
 from jose import jwt
+
 from api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
 from api.user.entity.user import User
 from api.user.repository.user_repository import UserRepository

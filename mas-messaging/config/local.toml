@@ -1,0 +1,12 @@
+[kafka.consumer]
+"bootstrap.servers" = "localhost"
+"group.id" = "console-consumer-69315"
+"enable.auto.commit" = false
+'auto.offset.reset' = 'earliest'
+
+[database.mysql]
+username = "admin"
+password = "gAAAAABkKoPWU0bJwSREcQ01egg9091Xjbvs_TEaIg_7ZmxINB95kYRAKmdylqtaunYGkTFSa7HvV-G2vBk97m3fdbm63slTb1j0z-dypRthJarPbgzvhUg="
+endpoint = "mas-v2-database.cvemd7kvhgtq.ap-northeast-2.rds.amazonaws.com"
+port = 3306
+database_name = "mas"

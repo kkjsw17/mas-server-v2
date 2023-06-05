@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mas-server-v2-chat"
+name = "mas_chat"
 authors = [
     {name = "Kijun Kwon", email = "kkjsw17@naver.com"},
 ]
@@ -30,7 +30,7 @@ Homepage = "https://github.com/kkjsw17/mas-server-v2.git"
 Documentation = "https://github.com/kkjsw17/mas-server-v2.git"
 
 [tool.hatch.version]
-path = "mas-chat/__init__.py"
+path = "__init__.py"
 
 [tool.isort]
 profile = "black"

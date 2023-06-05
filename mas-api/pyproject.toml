@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mas-server-v2-api"
+name = "mas_api"
 authors = [
     {name = "Kijun Kwon", email = "kkjsw17@naver.com"},
 ]

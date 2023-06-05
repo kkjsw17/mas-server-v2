@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-router = APIRouter()
+router = APIRouter(tags=["Health Check"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)

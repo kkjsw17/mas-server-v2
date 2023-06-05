@@ -1,11 +1,9 @@
 import pickle
 from logging import getLogger
 
-import inject
 from confluent_kafka import DeserializingConsumer, KafkaError, KafkaException
-
-from mas.api.script.repository.script_repository import ScriptRepository
-from mas.utils.config import Config
+from messaging.repository.script_repository import ScriptRepository
+from messaging.utils.config import Config
 
 logger = getLogger()
 
@@ -29,29 +27,26 @@ class ScriptConsumingService:
         consumer (DeserializingConsumer): The Kafka consumer instance.
     """
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, script_repository: ScriptRepository):
         self.kafka_config = config.kafka["consumer"]
-        self.kafka_config["value.deserializer"] = lambda v: pickle.loads(v)
+        self.kafka_config["value.deserializer"] = lambda v, ctx: pickle.loads(v)
         self.kafka_config["on_commit"] = commit_completed
 
-        self.consumer = DeserializingConsumer(self.kafka_config)
+        self.script_repository = script_repository
 
-    @inject.params(script_repository=ScriptRepository)
-    async def consume_script(self, script_repository: ScriptRepository):
+    async def consume_script(self):
         """
         Consume script from Kafka topic and save it in script repository.
-
-        Args:
-            script_repository (ScriptRepository): An instance of the ScriptRepository class containing the methods to save the script.
         """
 
+        consumer = DeserializingConsumer(self.kafka_config)
         running = True
 
         try:
-            self.consumer.subscribe("script")
+            consumer.subscribe(["scripts"])
 
             while running:
-                msg = self.consumer.poll(timeout=1.0)
+                msg = consumer.poll(timeout=1.0)
                 if msg is None:
                     continue
 
@@ -65,8 +60,9 @@ class ScriptConsumingService:
                         raise KafkaException(msg.error())
                 else:
                     # msg_process(msg)
-                    self.consumer.commit(asynchronous=True)
-                    await script_repository.save(msg)
+                    print(msg.value())
+                    # await self.script_repository.save(script=msg.value())
+                    consumer.commit(asynchronous=True)
         finally:
             # Close down consumer to commit final offsets.
-            self.consumer.close()
+            consumer.close()

@@ -1,9 +1,9 @@
 import os
 from abc import ABC, abstractmethod
 
-from api.utils.config import Config
-from api.utils.const import DATABASE_DRIVER_CLASS
-from api.utils.secret_utils import get_decrypted_password
+from messaging.utils.config import Config
+from messaging.utils.const import DATABASE_DRIVER_CLASS
+from messaging.utils.secret_utils import get_decrypted_password
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 
 
