@@ -24,7 +24,8 @@ class ScriptConsumingService:
         config (Config): The configuration object containing the Kafka consumer configuration.
 
     Attributes:
-        kafka_config (dict): The configuration options for the Kafka consumer, including the value deserializer and the on-commit function.
+        kafka_config (dict): The configuration options for the Kafka consumer,
+                                including the value deserializer and the on-commit function.
     """
 
     def __init__(self, config: Config, script_repository: ScriptRepository):

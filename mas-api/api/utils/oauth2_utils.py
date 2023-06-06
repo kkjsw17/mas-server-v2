@@ -11,7 +11,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
     Get a Bearer-type OAuth2 token stored as a cookie in the request header
 
     Args:
-        tokenUrl (str): The token URL used to obtain the token.
+        token_url (str): The token URL used to obtain the token.
         scheme_name (str): The name of the scheme.
         scopes (dict): The scopes required to access the endpoint.
         auto_error (bool): Whether to automatically raise an HTTPException if the user is not authenticated.
@@ -20,7 +20,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 
     def __init__(
         self,
-        tokenUrl: str,
+        token_url: str,
         scheme_name: str = None,
         scopes: dict = None,
         auto_error: bool = True,
@@ -28,7 +28,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
     ):
         if not scopes:
             scopes = {}
-        flows = OAuthFlowsModel(password={"tokenUrl": tokenUrl, "scopes": scopes})
+        flows = OAuthFlowsModel(password={"tokenUrl": token_url, "scopes": scopes})
         super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
         self.authorization_name = authorization_name
 

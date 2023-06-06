@@ -19,7 +19,7 @@ from api.utils.datetime_utils import get_now_datetime_by_timezone
 from api.utils.oauth2_utils import OAuth2PasswordBearerWithCookie
 
 oauth_scheme = OAuth2PasswordBearerWithCookie(
-    tokenUrl="/token", authorization_name=COOKIE_AUTHORIZATION_NAME
+    token_url="/token", authorization_name=COOKIE_AUTHORIZATION_NAME
 )
 
 
