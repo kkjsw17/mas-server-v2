@@ -9,14 +9,13 @@ from starlette.middleware.cors import CORSMiddleware
 from chat.utils.logging_utils import initialize_logger
 
 
-def create_app(project_path: str, init_database: bool = True) -> FastAPI:
+def create_app(project_path: str) -> FastAPI:
     """
     Creates a FastAPI application, initializes it with the local configuration,
     and includes all routers found in the project directory.
 
     Args:
         project_path (str): Root path of the project to create the app
-        init_database (bool): Whether the project requires a database connections
 
     Returns:
         FastAPI: A new FastAPI application.
@@ -31,15 +30,14 @@ def create_app(project_path: str, init_database: bool = True) -> FastAPI:
         allow_headers=["*"],
     )
 
-    if init_database:
-        app.add_event_handler(
-            "startup",
-            create_start_app_handler(),
-        )
-        app.add_event_handler(
-            "shutdown",
-            create_stop_app_handler(),
-        )
+    app.add_event_handler(
+        "startup",
+        create_start_app_handler(),
+    )
+    app.add_event_handler(
+        "shutdown",
+        create_stop_app_handler(),
+    )
 
     modules = get_controllers(project_path)
 
