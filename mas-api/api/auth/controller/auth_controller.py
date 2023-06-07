@@ -1,13 +1,12 @@
 from typing import Annotated
 
 import inject
-from fastapi import APIRouter, Depends
-from starlette.responses import JSONResponse, RedirectResponse
-
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.user.entity.user import User
 from api.user.repository.user_repository import UserRepository
 from api.utils.const import COOKIE_AUTHORIZATION_NAME, COOKIE_DOMAIN
+from fastapi import APIRouter, Depends
+from starlette.responses import JSONResponse, RedirectResponse
 
 router = APIRouter(tags=["Security"])
 

@@ -3,9 +3,6 @@ from abc import ABC, abstractmethod
 from datetime import timedelta
 from typing import Annotated
 
-from fastapi import Depends
-from jose import jwt
-
 from api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
 from api.user.entity.user import User
 from api.user.repository.user_repository import UserRepository
@@ -17,6 +14,8 @@ from api.utils.const import (
 )
 from api.utils.datetime_utils import get_now_datetime_by_timezone
 from api.utils.oauth2_utils import OAuth2PasswordBearerWithCookie
+from fastapi import Depends
+from jose import jwt
 
 oauth_scheme = OAuth2PasswordBearerWithCookie(
     token_url="/token", authorization_name=COOKIE_AUTHORIZATION_NAME
