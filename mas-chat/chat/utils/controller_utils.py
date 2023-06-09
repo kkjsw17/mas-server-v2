@@ -3,9 +3,10 @@ import os
 from glob import glob
 from typing import Callable
 
-from chat.utils.logging_utils import initialize_logger
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+
+from chat.utils.logging_utils import initialize_logger
 
 
 def create_app(project_path: str) -> FastAPI:

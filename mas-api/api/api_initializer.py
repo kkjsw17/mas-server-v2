@@ -1,10 +1,11 @@
 import inject
+from utils.config import Config
+
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.database.database_connection_manager import DatabaseConnectionManager
 from api.database.mysql_connection_manager import MySQLConnectionManager
 from api.user.repository.user_repository import UserRepository
 from api.user.service.user_service import UserService
-from utils.config import Config
 
 
 class APIInitializer:
