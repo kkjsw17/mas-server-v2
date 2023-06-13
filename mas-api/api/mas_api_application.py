@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 
 APIInitializer(os.getenv("PHASE", "local"))
 
-app = create_app("./api/api")
+app = create_app(".")
 logger = getLogger()
 
 
