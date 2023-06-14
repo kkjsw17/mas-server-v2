@@ -1,10 +1,6 @@
 import os
 from typing import Any
 
-from google.auth.transport import requests
-from google.oauth2.id_token import verify_oauth2_token
-from httpx_oauth.clients.google import GoogleOAuth2
-
 from api.auth.exception.auth_exception import OAuth2EncryptionKeyNotFoundException
 from api.auth.service.oauth2_service import OAuth2Service
 from api.user.entity.user import User
@@ -12,6 +8,9 @@ from api.user.repository.user_repository import UserRepository
 from api.utils.config import Config
 from api.utils.const import OAUTH2_ACCESS_TOKEN_EXPIRE_MINUTES, OAUTH2_ALGORITHM
 from api.utils.secret_utils import get_decrypted_password
+from google.auth.transport import requests
+from google.oauth2.id_token import verify_oauth2_token
+from httpx_oauth.clients.google import GoogleOAuth2
 
 
 class GoogleOAuth2Service(OAuth2Service):
