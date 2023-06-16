@@ -11,7 +11,7 @@ APIInitializer(os.getenv("PHASE", "local"))
 app = create_app(".")
 
 # add middlewares
-app.add_middleware(LoggingMiddleware)
+app.add_middleware(LoggingMiddleware, middleware_ignore_paths=[])
 
 # add exception handlers
 app.add_exception_handler(Exception, global_exception_handler)

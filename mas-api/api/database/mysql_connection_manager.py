@@ -3,8 +3,6 @@ from contextlib import AbstractContextManager, asynccontextmanager
 from logging import getLogger
 from typing import Callable
 
-from api.database.database_connection_manager import DatabaseConnectionManager
-from api.utils.config import Config
 from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -12,6 +10,9 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+
+from api.database.database_connection_manager import DatabaseConnectionManager
+from api.utils.config import Config
 
 logger = getLogger()
 

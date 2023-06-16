@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from messaging.database.database_connection_manager import Base
 from pytz import timezone
 from sqlalchemy.orm import Mapped, mapped_column
-
-from messaging.database.database_connection_manager import Base
 
 
 def get_now_datetime_by_timezone(timezone_str: str = "Asia/Seoul") -> datetime:

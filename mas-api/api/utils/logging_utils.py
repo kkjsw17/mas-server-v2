@@ -2,8 +2,9 @@ import logging
 import os
 import sys
 
-from api.utils.const import LOGGERS
 from loguru import logger
+
+from api.utils.const import LOGGERS
 
 
 class InterceptHandler(logging.Handler):
