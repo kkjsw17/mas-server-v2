@@ -1,6 +1,7 @@
+from sqlalchemy import delete
+
 from api.database.database_connection_manager import DatabaseConnectionManager
 from api.script.entity.script import Script
-from sqlalchemy import delete
 
 
 class ScriptRepository:
