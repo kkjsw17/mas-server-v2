@@ -1,10 +1,11 @@
 import os
 from abc import ABC, abstractmethod
 
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
+
 from messaging.utils.config import Config
 from messaging.utils.const import DATABASE_DRIVER_CLASS
 from messaging.utils.secret_utils import get_decrypted_password
-from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
