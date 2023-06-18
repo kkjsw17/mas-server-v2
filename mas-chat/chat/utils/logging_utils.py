@@ -2,8 +2,9 @@ import logging
 import os
 import sys
 
-from chat.utils.const import LOGGERS
 from loguru import logger
+
+from chat.utils.const import LOGGERS
 
 
 class InterceptHandler(logging.Handler):

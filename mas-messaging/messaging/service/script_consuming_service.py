@@ -2,6 +2,7 @@ import pickle
 from logging import getLogger
 
 from confluent_kafka import DeserializingConsumer, KafkaError, KafkaException
+
 from messaging.entity.script import Script
 from messaging.repository.script_repository import ScriptRepository
 from messaging.utils.config import Config

@@ -1,12 +1,13 @@
 import os
 from datetime import datetime
 
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from starlette.responses import HTMLResponse
+
 from chat.dto.script_dto import ScriptDto
 from chat.service.script_producing_service import ScriptProducingService
 from chat.utils.config import Config
 from chat.websocket_connection_manager import WebsocketConnectionManager
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from starlette.responses import HTMLResponse
 
 router = APIRouter(tags=["Script"])
 

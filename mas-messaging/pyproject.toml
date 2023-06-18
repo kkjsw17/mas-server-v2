@@ -31,7 +31,3 @@ Documentation = "https://github.com/kkjsw17/mas-server-v2.git"
 
 [tool.hatch.version]
 path = "__init__.py"
-
-[tool.isort]
-profile = "black"
-include_trailing_comma = true

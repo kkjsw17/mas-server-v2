@@ -1,10 +1,11 @@
 import pickle
 
+from confluent_kafka import SerializingProducer
+
 from chat.dto.script_dto import ScriptDto
 from chat.entity.script import Script
 from chat.utils.config import Config
 from chat.utils.kafka_utils import on_delivery
-from confluent_kafka import SerializingProducer
 
 
 class ScriptProducingService:
