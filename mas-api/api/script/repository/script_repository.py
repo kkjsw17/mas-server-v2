@@ -1,6 +1,6 @@
 from sqlalchemy import delete
 
-from api.database.database_connection_manager import DatabaseConnectionManager
+from api.common.database import DatabaseConnectionManager
 from api.script.entity.script import Script
 
 

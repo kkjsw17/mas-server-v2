@@ -7,7 +7,7 @@ from fastapi.responses import Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.types import ASGIApp
 
-from api.middleware.middleware_utils import AsyncIteratorWrapper, set_body
+from api.common.middleware.middleware_utils import AsyncIteratorWrapper, set_body
 
 logger = getLogger()
 

@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from api.database.database_connection_manager import DatabaseConnectionManager
+from api.common.database.database_connection_manager import DatabaseConnectionManager
 from api.utils.config import Config
 
 logger = getLogger()

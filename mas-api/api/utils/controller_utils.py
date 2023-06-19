@@ -7,7 +7,7 @@ import inject
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from api.database.database_connection_manager import DatabaseConnectionManager
+from api.common.database import DatabaseConnectionManager
 from api.utils.logging_utils import initialize_logger
 
 

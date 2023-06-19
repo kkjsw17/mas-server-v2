@@ -1,7 +1,7 @@
 import os
 
 from api.api_initializer import APIInitializer
-from api.middleware.logging_middleware import LoggingMiddleware
+from api.common.middleware.logging_middleware import LoggingMiddleware
 from api.utils.controller_utils import create_app
 from api.utils.gunicorn_utils import MASMultiProcessingServer
 
