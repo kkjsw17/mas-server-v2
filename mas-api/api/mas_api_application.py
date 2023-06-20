@@ -12,4 +12,4 @@ app = create_app(".")
 # add middlewares
 app.add_middleware(LoggingMiddleware, middleware_ignore_paths=[])
 
-MASMultiProcessingServer(app, "./config/api/gunicorn.conf.toml").run()
+MASMultiProcessingServer(app, "./config/gunicorn.conf.toml").run()

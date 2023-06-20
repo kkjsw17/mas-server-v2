@@ -1,11 +1,11 @@
 import inject
-from utils.config import Config
 
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.common.database.database_connection_manager import DatabaseConnectionManager
 from api.common.database.mysql_connection_manager import MySQLConnectionManager
 from api.user.repository.user_repository import UserRepository
 from api.user.service.user_service import UserService
+from api.utils.config import Config
 
 
 class APIInitializer:
@@ -31,6 +31,8 @@ class APIInitializer:
         # 1. bind config
         config = Config(self.phase)
         binder.bind(Config, config)
+
+        print(config.oauth2)
 
         # 2. bind database connection
         database_connection = MySQLConnectionManager(config=config)
