@@ -31,7 +31,7 @@ class UserService:
 
         return saved_user
 
-    async def find_by_id(self, user_id: int) -> User:
+    async def find_user_by_id(self, user_id: int) -> User:
         """"""
         return await self.user_repository.find_user_by_id(user_id)
 
