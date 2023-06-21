@@ -1,11 +1,8 @@
-from typing import Annotated
-
 import inject
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from starlette.responses import JSONResponse, RedirectResponse
 
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
-from api.user.entity.user import User
 from api.user.repository.user_repository import UserRepository
 from api.utils.const import COOKIE_AUTHORIZATION_NAME, COOKIE_DOMAIN
 
@@ -73,21 +70,3 @@ async def logout_and_remove_cookie() -> RedirectResponse:
     response.delete_cookie(COOKIE_AUTHORIZATION_NAME, domain=COOKIE_DOMAIN)
 
     return response
-
-
-@router.get("/test")
-async def test(
-    user: Annotated[User, Depends(google_oauth2_service.get_current_user)]
-) -> User:
-    """
-    Test endpoint that requires an authorized user. Returns the user object
-    decoded from the encoded JWT token in the authorization cookie.
-
-    Args:
-        user (User): An annotated user object.
-
-    Returns:
-        User: The decoded user object.
-    """
-
-    return user
