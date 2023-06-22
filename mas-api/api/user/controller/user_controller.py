@@ -12,7 +12,7 @@ google_oauth2_service = inject.instance(GoogleOAuth2Service)
 user_service = inject.instance(UserService)
 
 
-@router.get("/user")
+@router.get("/user/me")
 async def get_current_user(
     user: Annotated[User, Depends(google_oauth2_service.get_current_user)]
 ) -> User:
