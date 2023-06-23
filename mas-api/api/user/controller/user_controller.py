@@ -4,6 +4,7 @@ import inject
 from fastapi import APIRouter, Depends
 
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
+from api.user.dto.user_dto import UserDto
 from api.user.entity.user import User
 from api.user.service.user_service import UserService
 
@@ -28,3 +29,17 @@ async def get_current_user(
     """
 
     return user
+
+
+@router.post("/user")
+async def register_user(user_dto: UserDto) -> User:
+    user = await user_service.register(**user_dto.dict())
+
+    return user
+
+
+@router.delete("/user/{user_id}")
+async def get_entire_users(user_id: int) -> str:
+    await user_service.delete(user_id)
+
+    return "User deleted successfully"
