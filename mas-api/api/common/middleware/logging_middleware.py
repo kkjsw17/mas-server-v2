@@ -1,4 +1,5 @@
 import json
+from ast import literal_eval
 from logging import getLogger
 from uuid import uuid4
 
@@ -21,10 +22,14 @@ class LoggingMiddleware(BaseHTTPMiddleware):
     @staticmethod
     async def _log_request(request: Request):
         headers = dict(zip(request.headers.keys(), request.headers.values()))
-        # body = await request.json()
 
-        # log_message = f"[{request.url.path} / {request.state.request_id}] | REQ | HEADERS: {headers} | BODY: {body}"
         log_message = f"[{request.url.path} / {request.state.request_id}] | REQ | HEADERS: {headers}"
+
+        request_body = await request.body()
+        request_body = literal_eval(request_body.decode("utf-8"))
+
+        if request_body:
+            log_message += f" | BODY: {request_body}"
 
         if request.query_params:
             log_message += f" | QUERY_PARAMS: {request.query_params}"
