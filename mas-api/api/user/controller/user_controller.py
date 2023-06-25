@@ -31,6 +31,14 @@ async def get_current_user(
     return user
 
 
+@router.get("/user")
+async def get_all_user() -> list[User]:
+    """ """
+    users = await user_service.find_all()
+
+    return users
+
+
 @router.post("/user")
 async def register_user(user_dto: UserDto) -> User:
     user = await user_service.register(**user_dto.dict())

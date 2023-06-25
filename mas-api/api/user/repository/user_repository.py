@@ -55,6 +55,13 @@ class UserRepository:
 
         return user
 
+    async def find_all(self) -> list[User]:
+        async with self.database.get_session() as session:
+            result = await session.execute(select(User))
+            users = result.scalars().all()
+
+        return users
+
     async def save(self, user: User) -> User:
         """
         Save the given user object to the database.

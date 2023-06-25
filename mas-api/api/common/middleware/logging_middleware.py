@@ -1,5 +1,5 @@
 import json
-from ast import literal_eval
+from json import JSONDecodeError
 from logging import getLogger
 from uuid import uuid4
 
@@ -25,8 +25,10 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 
         log_message = f"[{request.url.path} / {request.state.request_id}] | REQ | HEADERS: {headers}"
 
-        request_body = await request.body()
-        request_body = literal_eval(request_body.decode("utf-8"))
+        try:
+            request_body = await request.json()
+        except JSONDecodeError:
+            request_body = str(await request.body())
 
         if request_body:
             log_message += f" | BODY: {request_body}"
@@ -36,23 +38,25 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 
         logger.info(log_message)
 
-        # return body
+        return request_body
 
     @staticmethod
     async def _log_response(request: Request, response: Response):
         headers = dict(response.headers)
-        body = [section async for section in response.__dict__["body_iterator"]]
-        response.__setattr__("body_iterator", AsyncIteratorWrapper(body))
+        response_body = [
+            section async for section in response.__dict__["body_iterator"]
+        ]
+        response.__setattr__("body_iterator", AsyncIteratorWrapper(response_body))
 
         try:
-            body = json.loads(body[0].decode())
+            response_body = json.loads(response_body[0].decode())
         except Exception:
-            body = str(body)
+            response_body = str(response_body)
 
-        log_message = f"[{request.url.path} / {request.state.request_id}] | RSP | HEADERS: {headers} | BODY: {body}"
+        log_message = f"[{request.url.path} / {request.state.request_id}] | RSP | HEADERS: {headers} | BODY: {response_body}"
         logger.info(log_message)
 
-        return body
+        return response_body
 
     async def _middleware_logic(
         self, request: Request, call_next: RequestResponseEndpoint

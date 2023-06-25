@@ -35,6 +35,9 @@ class UserService:
         """"""
         return await self.user_repository.find_user_by_id(user_id)
 
+    async def find_all(self) -> list[User]:
+        return await self.user_repository.find_all()
+
     async def delete(self, user_id: int):
         """
         Update the user's deleted_at to the current time.
