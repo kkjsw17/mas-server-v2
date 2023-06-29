@@ -1,4 +1,4 @@
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 
 from api.common.database import DatabaseConnectionManager
 from api.script.entity.script import Script
@@ -22,6 +22,15 @@ class ScriptRepository:
             session.add(script)
 
         return script
+
+    async def find_scripts_by_mid(self, meeting_id: int) -> list[Script]:
+        async with self.database.get_session() as session:
+            result = await session.execute(
+                select(Script).where(Script.mid == meeting_id)
+            )
+            scripts = result.scalars().all()
+
+        return scripts
 
     async def delete(self, script_id: int) -> Script | None:
         """
