@@ -1,6 +1,6 @@
 from sqlalchemy import delete, select
 
-from api.common.database import DatabaseConnectionManager
+from api.common.database.database_connection_manager import DatabaseConnectionManager
 from api.script.entity.script import Script
 
 
@@ -32,19 +32,21 @@ class ScriptRepository:
 
         return scripts
 
-    async def delete(self, script_id: int) -> Script | None:
+    async def delete(self, script_ids: list[int]) -> Script | None:
         """
-        Delete a script with the given script ID.
+        Delete scripts with the given script IDs.
 
         Args:
-            script_id (int): The ID of the script to delete.
+            script_ids (int): The ID of the script to delete.
 
         Returns:
             Script | None: Deleted user or None
         """
         async with self.database.get_session() as session:
-            result = await session.execute(delete(Script).where(Script.id == script_id))
+            result = await session.execute(
+                delete(Script).where(Script.id.in_(script_ids))
+            )
 
-            deleted_script = result.scalars().one_or_none()
+            deleted_script = result.scalars().all()
 
         return deleted_script

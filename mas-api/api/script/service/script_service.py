@@ -17,6 +17,6 @@ class ScriptService:
         """"""
         return await self.script_repository.find_scripts_by_mid(meeting_id)
 
-    async def delete(self, script_id: int):
+    async def delete(self, script_ids: list[int]):
         """ """
-        await self.script_repository.delete(script_id)
+        await self.script_repository.delete(script_ids)
