@@ -32,7 +32,7 @@ class ScriptRepository:
 
         return scripts
 
-    async def delete(self, script_ids: list[int]) -> Script | None:
+    async def delete(self, script_ids: list[int]) -> list[Script]:
         """
         Delete scripts with the given script IDs.
 
