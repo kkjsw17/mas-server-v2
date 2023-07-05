@@ -13,7 +13,13 @@ script_service = inject.instance(ScriptService)
 @router.get("/script/{meeting_id}")
 async def get_scripts(meeting_id: int) -> list[Script]:
     """
-    TODO
+    Retrieve a list of scripts for a given meeting ID.
+
+    Args:
+        meeting_id (int): The ID of the meeting.
+
+    Returns:
+        list[Script]: A list of scripts matching the meeting ID.
     """
 
     return await script_service.find_scripts_by_mid(meeting_id)
@@ -22,7 +28,13 @@ async def get_scripts(meeting_id: int) -> list[Script]:
 @router.delete("/script/{script_ids}")
 async def delete_scripts(script_ids: str) -> list[Script]:
     """
-    TODO
+    Delete scripts with the specified script IDs.
+
+    Args:
+        script_ids (str): Comma-separated string of script IDs.
+
+    Returns:
+        list[Script]: A list of deleted scripts.
     """
 
     script_ids = list(map(int, script_ids.split(",")))
