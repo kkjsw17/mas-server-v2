@@ -1,5 +1,7 @@
+import re
+
 import inject
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.script.entity.script import Script
@@ -36,6 +38,12 @@ async def delete_scripts(script_ids: str) -> list[Script]:
     Returns:
         list[Script]: A list of deleted scripts.
     """
+
+    if not bool(re.match(r"^(\d+,)*\d+$", script_ids)):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="script_ids must be list of integer, like `1,2,3`",
+        )
 
     script_ids = list(map(int, script_ids.split(",")))
     return await script_service.delete(script_ids)
