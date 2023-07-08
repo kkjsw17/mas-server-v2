@@ -1,7 +1,7 @@
 [database.mysql]
 username = "admin"
 password = "gAAAAABkKoPWU0bJwSREcQ01egg9091Xjbvs_TEaIg_7ZmxINB95kYRAKmdylqtaunYGkTFSa7HvV-G2vBk97m3fdbm63slTb1j0z-dypRthJarPbgzvhUg="
-endpoint = "mas-v2-database.cvemd7kvhgtq.ap-northeast-2.rds.amazonaws.com"
+endpoint = "localhost"
 port = 3306
 database_name = "mas"
 
