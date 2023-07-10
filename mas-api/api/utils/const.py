@@ -28,3 +28,11 @@ JWT_DECODING_OPTIONS = {
     "verify_aud": False,
     "exp": True,
 }
+
+"""
+Exception Related
+"""
+
+SCRIPT_DELETION_VALIDATION_EXCEPTION_MESSAGE = (
+    "script_ids must be list of integer, like `1,2,3`"
+)

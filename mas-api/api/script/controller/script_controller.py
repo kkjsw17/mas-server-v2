@@ -5,7 +5,9 @@ from fastapi import APIRouter
 
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.script.entity.script import Script
-from api.script.exception.script_validation_exception import ScriptValidationException
+from api.script.exception.script_deletion_validation_exception import (
+    ScriptDeletionValidationException,
+)
 from api.script.service.script_service import ScriptService
 
 router = APIRouter(tags=["Script"])
@@ -41,7 +43,7 @@ async def delete_scripts(script_ids: str) -> list[Script]:
     """
 
     if not bool(re.match(r"^(\d+,)*\d+$", script_ids)):
-        raise ScriptValidationException()
+        raise ScriptDeletionValidationException()
 
     script_ids = list(map(int, script_ids.split(",")))
     return await script_service.delete(script_ids)

@@ -18,8 +18,7 @@ async def get_current_user(
     user: Annotated[User, Depends(google_oauth2_service.get_current_user)]
 ) -> User:
     """
-    Test endpoint that requires an authorized user. Returns the user object
-    decoded from the encoded JWT token in the authorization cookie.
+    Returns the user object decoded from the encoded JWT token in the authorization cookie.
 
     Args:
         user (User): An annotated user object.
