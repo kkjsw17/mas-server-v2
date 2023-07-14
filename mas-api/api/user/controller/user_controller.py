@@ -40,7 +40,7 @@ async def get_all_user() -> list[User]:
 
 @router.post("/user")
 async def register_user(user_dto: UserDto) -> User:
-    user = await user_service.register(**user_dto.dict())
+    user = await user_service.register(**user_dto.model_dump())
 
     return user
 

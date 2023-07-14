@@ -26,6 +26,7 @@ class UserService:
         Todo:
             - validate user kwargs
         """
+
         new_user = User(**kwargs)
         saved_user = await self.user_repository.save(new_user)
 
