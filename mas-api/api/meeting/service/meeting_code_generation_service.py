@@ -1,10 +1,12 @@
 import random
 import string
 
+from api.meeting.repository.meeting_repository import MeetingRepository
+
 
 class MeetingCodeGenerationService:
-    def __init__(self, meeting_repository_service):
-        self.meeting_repository_service = meeting_repository_service
+    def __init__(self, meeting_repository: MeetingRepository):
+        self.meeting_repository = meeting_repository
         self.characters = string.ascii_letters + string.digits
 
     async def get_meeting_code(self):
@@ -16,7 +18,7 @@ class MeetingCodeGenerationService:
         return "".join(random.choices(self.characters, k=length))
 
     async def _check_code_duplication_in_ongoing_meetings(self, code: str) -> bool:
-        meetings = await self.meeting_repository_service.find_by_code_and_ongoing(
+        meetings = await self.meeting_repository.find_meetings_by_code_and_ongoing(
             code=code, ongoing=True
         )
 
