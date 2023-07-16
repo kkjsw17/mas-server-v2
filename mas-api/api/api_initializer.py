@@ -3,6 +3,11 @@ import inject
 from api.auth.service.google_oauth2_service import GoogleOAuth2Service
 from api.common.database.database_connection_manager import DatabaseConnectionManager
 from api.common.database.mysql_connection_manager import MySQLConnectionManager
+from api.meeting.repository.meeting_repository import MeetingRepository
+from api.meeting.service.meeting_code_generation_service import (
+    MeetingCodeGenerationService,
+)
+from api.script.repository.script_repository import ScriptRepository
 from api.user.repository.user_repository import UserRepository
 from api.user.service.user_service import UserService
 from api.utils.config import Config
@@ -42,6 +47,12 @@ class APIInitializer:
         user_repository = UserRepository(database=database_connection)
         binder.bind(UserRepository, user_repository)
 
+        meeting_repository = MeetingRepository(database=database_connection)
+        binder.bind(MeetingRepository, meeting_repository)
+
+        script_repository = ScriptRepository(database=database_connection)
+        binder.bind(ScriptRepository, script_repository)
+
         # 4. bind services
         user_service = UserService(user_repository=user_repository)
         binder.bind(UserService, user_service)
@@ -50,3 +61,8 @@ class APIInitializer:
             config=config, user_repository=user_repository
         )
         binder.bind(GoogleOAuth2Service, google_oauth2_service)
+
+        meeting_code_generation_service = MeetingCodeGenerationService(
+            meeting_repository=meeting_repository
+        )
+        binder.bind(MeetingCodeGenerationService, meeting_code_generation_service)
