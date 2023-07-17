@@ -8,6 +8,7 @@ from api.meeting.service.meeting_code_generation_service import (
     MeetingCodeGenerationService,
 )
 from api.script.repository.script_repository import ScriptRepository
+from api.script.service.script_service import ScriptService
 from api.user.repository.user_repository import UserRepository
 from api.user.service.user_service import UserService
 from api.utils.config import Config
@@ -66,3 +67,6 @@ class APIInitializer:
             meeting_repository=meeting_repository
         )
         binder.bind(MeetingCodeGenerationService, meeting_code_generation_service)
+
+        script_service = ScriptService(script_repository=script_repository)
+        binder.bind(ScriptService, script_service)
