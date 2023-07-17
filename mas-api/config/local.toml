@@ -1,6 +1,6 @@
 [database.mysql]
-username = "admin"
-password = "gAAAAABkKoPWU0bJwSREcQ01egg9091Xjbvs_TEaIg_7ZmxINB95kYRAKmdylqtaunYGkTFSa7HvV-G2vBk97m3fdbm63slTb1j0z-dypRthJarPbgzvhUg="
+username = "server"
+password = "gAAAAABkvmuGmv_Bx6MSbO4NllzqM5zlxu4swm3pj1LPhP4cKES4cDlqGJJPiWEuT-nYGeuz7prPgsO1kSlN7ZVq2UE4Gr8lb8AlGtGTKNUiQh97PumFO30="
 endpoint = "localhost"
 port = 3306
 database_name = "mas"
