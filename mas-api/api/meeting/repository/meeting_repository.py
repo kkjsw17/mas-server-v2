@@ -14,13 +14,13 @@ class MeetingRepository:
 
         return meeting
 
-    async def find_meetings_by_code_and_ongoing(
+    async def find_meeting_by_code_and_ongoing(
         self, code: str, ongoing: bool
-    ) -> list[Meeting]:
+    ) -> Meeting | None:
         async with self.database.get_session() as session:
             result = await session.execute(
                 select(Meeting).where(Meeting.code == code, Meeting.ongoing == ongoing)
             )
-            meetings = result.scalars().all()
+            meeting = result.scalars().one_or_none()
 
-        return meetings
+        return meeting
