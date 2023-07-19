@@ -7,6 +7,7 @@ from api.meeting.repository.meeting_repository import MeetingRepository
 from api.meeting.service.meeting_code_generation_service import (
     MeetingCodeGenerationService,
 )
+from api.meeting.service.meeting_service import MeetingService
 from api.script.repository.script_repository import ScriptRepository
 from api.script.service.script_service import ScriptService
 from api.user.repository.user_repository import UserRepository
@@ -62,6 +63,9 @@ class APIInitializer:
             config=config, user_repository=user_repository
         )
         binder.bind(GoogleOAuth2Service, google_oauth2_service)
+
+        meeting_service = MeetingService(meeting_repository=meeting_repository)
+        binder.bind(MeetingService, meeting_service)
 
         meeting_code_generation_service = MeetingCodeGenerationService(
             meeting_repository=meeting_repository
