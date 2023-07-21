@@ -1,5 +1,10 @@
 from pydantic import BaseModel, field_validator
 
+from api.utils.const import (
+    MEETING_CAPACITY_VALIDATION_MESSAGE,
+    MEETING_TITLE_LENGTH_VALIDATION_MESSAGE,
+)
+
 
 class MeetingDto(BaseModel):
     host_id: int
@@ -10,7 +15,7 @@ class MeetingDto(BaseModel):
     @classmethod
     def check_title_length(cls, v: str) -> str:
         if len(v) > 20:
-            raise ValueError("Title must be no longer than 20 characters long.")
+            raise ValueError(MEETING_TITLE_LENGTH_VALIDATION_MESSAGE)
 
         return v
 
@@ -18,8 +23,6 @@ class MeetingDto(BaseModel):
     @classmethod
     def check_capacity(cls, v: int) -> int:
         if v < 0 or v > 10:
-            raise ValueError(
-                "Capacity must be no more than 10 people. We are trying to increase the number of meetings. 🥲"
-            )
+            raise ValueError(MEETING_CAPACITY_VALIDATION_MESSAGE)
 
         return v
