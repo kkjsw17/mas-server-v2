@@ -15,7 +15,7 @@ class MeetingService:
         self.meeting_repository = meeting_repository
         self.meeting_code_generation_service = meeting_code_generation_service
 
-    async def save(self, meeting_dto: MeetingDto) -> Meeting:
+    async def create(self, meeting_dto: MeetingDto) -> Meeting:
         code = self.meeting_code_generation_service.get_meeting_code()
         meeting = Meeting(code=code, ongoing=True, **meeting_dto.model_dump())
         return await self.meeting_repository.save(meeting)
