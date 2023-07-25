@@ -36,6 +36,7 @@ class DatabaseConnectionManager(ABC):
         self.database_name = self.database_config["database_name"]
 
         self.database_url = f"{self.driver_class}://{self.username}:{self.password}@{self.endpoint}:{self.port}/{self.database_name}"
+        print(self.database_url)
 
     @abstractmethod
     def connect_db(self):

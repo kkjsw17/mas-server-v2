@@ -64,13 +64,16 @@ class APIInitializer:
         )
         binder.bind(GoogleOAuth2Service, google_oauth2_service)
 
-        meeting_service = MeetingService(meeting_repository=meeting_repository)
-        binder.bind(MeetingService, meeting_service)
-
         meeting_code_generation_service = MeetingCodeGenerationService(
             meeting_repository=meeting_repository
         )
         binder.bind(MeetingCodeGenerationService, meeting_code_generation_service)
+
+        meeting_service = MeetingService(
+            meeting_repository=meeting_repository,
+            meeting_code_generation_service=meeting_code_generation_service,
+        )
+        binder.bind(MeetingService, meeting_service)
 
         script_service = ScriptService(script_repository=script_repository)
         binder.bind(ScriptService, script_service)
